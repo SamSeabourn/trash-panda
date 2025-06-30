@@ -1,6 +1,6 @@
 # Trash Panda🗑️🦝 ( WIP )
 
-> A Chrome Extension that beautifies <pre> code blocks on error pages, injects a caret marker at a specific line + column, and gives it a dramatic bouncing emoji. Also includes Prettier formatting.
+### A Chrome Extension that beautifies `<pre>` code blocks on minified JS code opened in the browser, injects a caret marker at a specific line + column.
 
 
 
