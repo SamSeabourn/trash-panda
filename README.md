@@ -36,6 +36,6 @@
 2. Go to chrome://extensions
 3. Enable "Developer mode"
 4. Load dist/ as an unpacked extension
-5. Visit a page with a <pre> tag and add ?line=3&column=10 or :3:10 to the URL
+5. Visit a page with a `<pre>` tag and add ?line=3&column=10 or :3:10 to the URL
 
 ## Install
