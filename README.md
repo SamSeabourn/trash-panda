@@ -6,8 +6,8 @@
 
 ## 🚀 Features
 
-- Detects stack-trace style URLs ending with :line:column (eg www.myapp.com/main.js:1:22323)
-- Formats <pre> content with Prettier
+- Detects stack-trace style URLs ending with :line:column (eg `www.myapp.com/main.js:1:22323`)
+- Formats default page `<pre>` content with Prettier
 - Injects a visual caret (👇) at the exact cursor position
 - Scrolls to the caret and shows a bouncing animation
 
@@ -16,21 +16,19 @@
 
 1. Install dependencies
 
-    yarn install
+    `yarn install`
 
 2. Run dev mode
 
-    yarn dev
+    `yarn dev`
 
    This spins up Vite’s dev server and watches changes to source files.
 
 3. Build extension
 
-    yarn build
+    `yarn build`
 
    Outputs to dist/ folder, ready to load into Chrome as an unpacked extension.
-
-💻 How it Works
 
 ## To test this extension:
 
