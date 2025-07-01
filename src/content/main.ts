@@ -117,13 +117,15 @@ const formatPreTagContent = async (line: number, column: number) => {
 
   document.body.appendChild(caret);
 
-  markerEl.scrollIntoView({ block: 'center', behavior: 'smooth' });
   addBounceCSS();
 
   setTimeout(() => {
-    markerEl.remove();
-    // Can use primsm for styling here if you want
-  }, 1000);
+    markerEl.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    setTimeout(() => {
+      markerEl.remove();
+      // Can use primsm for styling here if you want
+    }, 1000);
+  }, 5000);
 };
 
 const hasValidLineAndColumnParams = (url: string): boolean => {
@@ -164,7 +166,6 @@ if (hasLineNumberSuffix(window.location.href)) {
 }
 
 if (hasValidLineAndColumnParams(window.location.href)) {
-  console.log('do shit here');
   const parsed = new URL(window.location.href);
   const line = Number(parsed.searchParams.get('line'));
   const column = Number(parsed.searchParams.get('column'));

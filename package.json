@@ -1,11 +1,11 @@
 {
   "name": "trash-panda",
   "type": "module",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "dev": "vite",
-    "build": "rm -rf dist && tsc && vite build",
+    "build": "rm -rf dist && tsc && vite build && zip -r package-$(jq -r .version package.json).zip dist",
     "lint": "eslint . --ext .ts,.tsx"
   },
   "devDependencies": {
