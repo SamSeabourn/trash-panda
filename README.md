@@ -1,8 +1,6 @@
-# Trash Panda🗑️🦝 ( WIP )
+![](./banner.png)
 
 ### A Chrome Extension that beautifies `<pre>` code blocks on minified JS code opened in the browser, injects a caret marker at a specific line + column.
-
-
 
 ## 🚀 Features
 

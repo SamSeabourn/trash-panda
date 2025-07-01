@@ -62,6 +62,9 @@ const lineColToOffset = (text: string, line: number, col: number): number => {
   return offset + (col - 1);
 };
 
+const escapeHTML = (str: string): string =>
+  str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
 const formatPreTagContent = async (line: number, column: number) => {
   const pre = document.querySelector('pre');
   if (!pre) {
@@ -78,14 +81,17 @@ const formatPreTagContent = async (line: number, column: number) => {
     plugins: [parserBabel, prettierPluginEstree],
   });
 
-  // Use a real DOM marker
-  const markerSpan = '<span id="caret-marker"></span>';
-  const codeWithMarker =
+  // Place the raw marker in the unescaped string
+  const MARKER = '___MARKER___';
+  const withMarker =
     result.formatted.slice(0, result.cursorOffset) +
-    markerSpan +
+    MARKER +
     result.formatted.slice(result.cursorOffset);
 
-  pre.innerHTML = codeWithMarker;
+  // Escape everything except the marker
+  const escaped = escapeHTML(withMarker).replace(MARKER, '<span id="caret-marker"></span>');
+
+  pre.innerHTML = escaped;
 
   await new Promise((res) => requestAnimationFrame(res));
 
@@ -115,15 +121,13 @@ const formatPreTagContent = async (line: number, column: number) => {
     left: `${rect.left + window.scrollX + EMOJI_FINGER_OFFSET}px`,
   });
 
-  document.body.appendChild(caret);
-
   addBounceCSS();
+  document.body.appendChild(caret);
 
   setTimeout(() => {
     markerEl.scrollIntoView({ block: 'center', behavior: 'smooth' });
     setTimeout(() => {
       markerEl.remove();
-      // Can use primsm for styling here if you want
     }, 1000);
   }, 5000);
 };
