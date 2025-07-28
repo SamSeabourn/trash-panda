@@ -28,7 +28,7 @@
 
    Outputs to dist/ folder, ready to load into Chrome as an unpacked extension.
 
-## To test this extension:
+## Install
 
 1. Build it: yarn build or download `package.zip` and unpack it
 2. Go to chrome://extensions
@@ -36,4 +36,3 @@
 4. Load dist/ as an unpacked extension
 5. Visit a page with a `<pre>` tag and add ?line=3&column=10 or :3:10 to the URL
 
-## Install
