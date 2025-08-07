@@ -1,10 +1,9 @@
-import { setupCounter } from './counter.ts';
 import './style.css';
 
 document.querySelector('#app')!.innerHTML = `
   <div>
-    <span>Hi Im a WIP :)<span>
+    <a href="https://github.com/SamSeabourn/trash-panda" target="_blank">
+      <span style="transform: scaleX(-1); display: inline-block;">🦝</span> Star On Github 🦝
+    </a>
   </div>
 `;
-
-setupCounter(document.querySelector('#counter')!);
