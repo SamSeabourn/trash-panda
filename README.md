@@ -6,8 +6,9 @@
 
 - Detects stack-trace style URLs ending with :line:column (eg `www.myapp.com/main.js:1:22323`)
 - Formats default page `<pre>` content with Prettier
-- Injects a visual caret (👇) at the exact cursor position
-- Scrolls to the caret and shows a bouncing animation
+- Opens up light weight browser editor (monaco)
+- Injects a visual caret (👉) at the location of the stack trace
+- Auto scrolls to the location
 
 
 ## 📦 Setup
@@ -34,5 +35,5 @@
 2. Go to chrome://extensions
 3. Enable "Developer mode"
 4. Load dist/ as an unpacked extension
-5. Visit a page with a `<pre>` tag and add ?line=3&column=10 or :3:10 to the URL
+5. Visit any `.js` page and add `?line=3&column=10` or `:3:10` to the URL.
 

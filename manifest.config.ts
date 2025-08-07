@@ -17,5 +17,10 @@ export default defineManifest({
   content_scripts: [{
     js: ['src/content/main.ts'],
     matches: ['https://*/*'],
+    run_at: "document_start"
   }],
+  web_accessible_resources: [{
+    resources: ["trash-background.png"],
+    matches: ["<all_urls>"]
+  }]
 })
