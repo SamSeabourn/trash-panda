@@ -36,4 +36,3 @@
 3. Enable "Developer mode"
 4. Load dist/ as an unpacked extension
 5. Visit any `.js` page and add `?line=3&column=10` or `:3:10` to the URL.
-
