@@ -1,16 +1,17 @@
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 300px;
-  background-image: url("/trash-background.png");
-  background-size: cover;
-  background-position: center;
-  min-height: 100px;
+    margin: 0;
+    display: flex;
+    place-items: center;
+    min-width: 400px;
+    background-image: url(/trash-background.png);
+    background-size: cover;
+    background-position: center;
+    min-height: 150px;
+    justify-content: flex-start;
 }
 
 div { 
-  width: 100%;
+  width: 75%;
   height: 100%;
   display: flex;
   place-items: center;
