@@ -22,7 +22,7 @@ export const spawnEditor = async (
 
   if (cursorOffset > code.length) {
     // TODO: This is a bit ghetto.. need to check the line and col to validate properly
-    console.error('Out of range error');
+    console.warn('Out of range');
     cursorOffset = 1;
   }
 
@@ -45,7 +45,7 @@ export const spawnEditor = async (
   const editorInstance = editor.create(editorWrapper!, {
     readOnly: true,
     glyphMargin: true,
-    automaticLayout: false,
+    automaticLayout: true,
     language: 'javascript',
     value: result.formatted,
     theme: isDarkMode ? 'vs-dark' : 'vs',
