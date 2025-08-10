@@ -6,7 +6,7 @@
 
 - Detects stack-trace style URLs ending with :line:column (eg `www.myapp.com/main.js:1:22323`)
 - Formats default page `<pre>` content with Prettier
-- Opens up light weight browser editor (monaco)
+- Lazy loads a light weight browser editor (monaco)
 - Injects a visual caret (👉) at the location of the stack trace
 - Auto scrolls to the location
 
@@ -36,3 +36,8 @@
 3. Enable "Developer mode"
 4. Load dist/ as an unpacked extension
 5. Visit any `.js` page and add `?line=3&column=10` or `:3:10` to the URL.
+
+# Todos
+- Progress bar
+- User facing messages for 'out of range', generic errors and completed
+- Custom theme support (V2 if I ever get around to it)

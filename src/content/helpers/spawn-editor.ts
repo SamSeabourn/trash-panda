@@ -1,8 +1,3 @@
-import * as prettier from 'prettier/standalone';
-import * as parserBabel from 'prettier/plugins/babel';
-import { editor, Range, Selection } from 'monaco-editor';
-import prettierPluginEstree from 'prettier/plugins/estree';
-
 import { setupMonacoEnv } from './setup-monaco-env';
 import { lineColToOffset } from './line-to-col-offset';
 
@@ -11,6 +6,11 @@ export const spawnEditor = async (
   initialColumn = 1,
   enableCursor = true,
 ) => {
+  const { Range, editor, Selection } = await import('monaco-editor');
+  const prettierPluginEstree = (await import('prettier/plugins/estree')).default;
+  const parserBabel = await import('prettier/plugins/babel');
+  const { formatWithCursor } = await import('prettier/standalone');
+
   const pre = document.querySelector('pre');
   if (!pre) {
     console.warn('No <pre> tag found on the page.');
@@ -21,11 +21,12 @@ export const spawnEditor = async (
   let cursorOffset = lineColToOffset(code, initialLineNumber, initialColumn);
 
   if (cursorOffset > code.length) {
+    // TODO: This is a bit ghetto.. need to check the line and col to validate properly
     console.error('Out of range error');
     cursorOffset = 1;
   }
 
-  const result = await prettier.formatWithCursor(code, {
+  const result = await formatWithCursor(code, {
     cursorOffset,
     parser: 'babel',
     plugins: [parserBabel, prettierPluginEstree],

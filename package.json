@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "build": "rm -rf dist && tsc && vite build && zip -r package-$(jq -r .version package.json).zip dist",
+    "build": "rm -rf dist && tsc && vite build && zip -r package-$(jq -r .version package.json).zip dist && node post-bundle.js",
     "lint": "eslint . --ext .ts,.tsx"
   },
   "devDependencies": {
