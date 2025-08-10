@@ -58,12 +58,12 @@ export const spawnEditor = async (
       {
         range: new Range(
           position.lineNumber,
-          position.column - 1,
+          position.column,
           position.lineNumber,
           position.column,
         ),
         options: {
-          inlineClassName: 'my-inline-tooltip',
+          beforeContentClassName: 'my-inline-tooltip',
           hoverMessage: {
             value: `⚠️ Stack trace location ⚠️`,
           },
