@@ -4,6 +4,8 @@ declare global {
   }
 }
 
+declare module 'monaco-editor/esm/vs/basic-languages/javascript/javascript';
+
 window.MonacoEnvironment = {
   getWorker(workerId, label) {
     switch (label) {
