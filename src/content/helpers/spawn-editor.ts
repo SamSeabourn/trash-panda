@@ -1,30 +1,43 @@
+import { spawnDialog } from './spawn-dialog';
 import { setupMonacoEnv } from './setup-monaco-env';
 import { lineColToOffset } from './line-to-col-offset';
+import { getActualLineColCount } from './get-actual-line-col-count';
 
 export const spawnEditor = async (
   initialLineNumber = 1,
   initialColumn = 1,
   enableCursor = true,
 ) => {
-  const { Range, editor, Selection } = await import('monaco-editor');
-  const prettierPluginEstree = (await import('prettier/plugins/estree')).default;
-  const parserBabel = await import('prettier/plugins/babel');
-  const { formatWithCursor } = await import('prettier/standalone');
-
   const pre = document.querySelector('pre');
   if (!pre) {
     console.warn('No <pre> tag found on the page.');
     return;
   }
+  const monaco = await import('monaco-editor/esm/vs/editor/editor.api');
+  const jsModule = await import('monaco-editor/esm/vs/basic-languages/javascript/javascript');
+  monaco.languages.register({ id: 'javascript' });
+  monaco.languages.setMonarchTokensProvider('javascript', jsModule.language);
+  monaco.languages.setLanguageConfiguration('javascript', jsModule.conf);
+  const { Range, editor, Selection } = monaco;
+
+  const prettierPluginEstree = (await import('prettier/plugins/estree')).default;
+  const parserBabel = await import('prettier/plugins/babel');
+  const { formatWithCursor } = await import('prettier/standalone');
 
   const code = pre.textContent ?? '';
-  let cursorOffset = lineColToOffset(code, initialLineNumber, initialColumn);
+  const actualLineLengths = getActualLineColCount(code);
 
-  if (cursorOffset > code.length) {
-    // TODO: This is a bit ghetto.. need to check the line and col to validate properly
-    console.warn('Out of range');
-    cursorOffset = 1;
+  const isOutOfRange = actualLineLengths[initialLineNumber - 1] < initialColumn;
+
+  if (isOutOfRange) {
+    spawnDialog({
+      type: 'warn',
+      title: 'Out of range',
+      message: `Line ${initialLineNumber} has a max coloumn size of ${actualLineLengths[initialLineNumber - 1]}, you provided ${initialColumn}`,
+    });
   }
+
+  const cursorOffset = lineColToOffset(code, initialLineNumber, initialColumn);
 
   const result = await formatWithCursor(code, {
     cursorOffset,
@@ -51,7 +64,7 @@ export const spawnEditor = async (
     theme: isDarkMode ? 'vs-dark' : 'vs',
   });
 
-  if (enableCursor) {
+  if (enableCursor && !isOutOfRange) {
     const model = editorInstance.getModel()!;
     const position = model.getPositionAt(result.cursorOffset);
     editorInstance.createDecorationsCollection([
