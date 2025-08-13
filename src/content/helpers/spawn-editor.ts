@@ -5,7 +5,7 @@ import { getActualLineColCount } from './get-actual-line-col-count';
 
 export const spawnEditor = async (
   initialLineNumber = 1,
-  initialColumn = 1,
+  initialColNumber = 1,
   enableCursor = true,
 ) => {
   const pre = document.querySelector('pre');
@@ -13,11 +13,7 @@ export const spawnEditor = async (
     console.warn('No <pre> tag found on the page.');
     return;
   }
-  const monaco = await import('monaco-editor/esm/vs/editor/editor.api');
-  const jsModule = await import('monaco-editor/esm/vs/basic-languages/javascript/javascript');
-  monaco.languages.register({ id: 'javascript' });
-  monaco.languages.setMonarchTokensProvider('javascript', jsModule.language);
-  monaco.languages.setLanguageConfiguration('javascript', jsModule.conf);
+  const monaco = await import('monaco-editor');
   const { Range, editor, Selection } = monaco;
 
   const prettierPluginEstree = (await import('prettier/plugins/estree')).default;
@@ -26,18 +22,34 @@ export const spawnEditor = async (
 
   const code = pre.textContent ?? '';
   const actualLineLengths = getActualLineColCount(code);
+  const maxLineLength = actualLineLengths.sort()[0]!;
+  const totalLineCount = actualLineLengths.length;
 
-  const isOutOfRange = actualLineLengths[initialLineNumber - 1] < initialColumn;
+  let isValidCursorLocation = true;
+
+  if (initialLineNumber > totalLineCount) {
+    spawnDialog({
+      type: 'warn',
+      title: 'Out of range',
+      message: `Line number ${initialLineNumber} is beyond the total line count`,
+    });
+    isValidCursorLocation = false;
+  }
+
+  const isOutOfRange = actualLineLengths[initialLineNumber - 1] < initialColNumber;
 
   if (isOutOfRange) {
     spawnDialog({
       type: 'warn',
       title: 'Out of range',
-      message: `Line ${initialLineNumber} has a max coloumn size of ${actualLineLengths[initialLineNumber - 1]}, you provided ${initialColumn}`,
+      message: `Line ${initialLineNumber} has a max coloumn size of ${actualLineLengths[initialLineNumber - 1]}, you provided ${initialColNumber}`,
     });
+    isValidCursorLocation = false;
   }
 
-  const cursorOffset = lineColToOffset(code, initialLineNumber, initialColumn);
+  const cursorOffset = isValidCursorLocation
+    ? lineColToOffset(code, initialLineNumber, initialColNumber)
+    : 1;
 
   const result = await formatWithCursor(code, {
     cursorOffset,
@@ -62,9 +74,16 @@ export const spawnEditor = async (
     language: 'javascript',
     value: result.formatted,
     theme: isDarkMode ? 'vs-dark' : 'vs',
+    maxTokenizationLineLength: maxLineLength,
   });
 
-  if (enableCursor && !isOutOfRange) {
+  editorInstance.onMouseDown((e) => {
+    if (e.target.type === monaco.editor.MouseTargetType.CONTENT_TEXT) {
+      editorInstance.trigger('', 'editor.action.revealDefinition', {});
+    }
+  });
+
+  if (isValidCursorLocation && enableCursor) {
     const model = editorInstance.getModel()!;
     const position = model.getPositionAt(result.cursorOffset);
     editorInstance.createDecorationsCollection([
@@ -78,7 +97,7 @@ export const spawnEditor = async (
         options: {
           beforeContentClassName: 'my-inline-tooltip',
           hoverMessage: {
-            value: `⚠️ Stack trace location ⚠️`,
+            value: `⚠️ Stack trace location ${initialLineNumber}:${initialColNumber} ⚠️`,
           },
         },
       },
@@ -102,5 +121,6 @@ export const spawnEditor = async (
       },
     ]);
   }
-  console.log('loading done');
 };
+
+console.log('loading done');

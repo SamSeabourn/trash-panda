@@ -2,6 +2,8 @@ import path from 'node:path';
 import { defineConfig } from 'vite';
 import zip from 'vite-plugin-zip-pack';
 import { crx } from '@crxjs/vite-plugin';
+import { monaco } from '@bithero/monaco-editor-vite-plugin';
+import monacoEditorEsmPlugin from 'vite-plugin-monaco-editor-esm';
 
 import manifest from './manifest.config.js';
 import { name, version } from './package.json';
@@ -18,6 +20,15 @@ export default defineConfig({
     },
   },
   plugins: [
+    monacoEditorEsmPlugin({
+      publicPath: 'assets/monaco-workers',
+      languageWorkers: ['editorWorkerService', 'typescript', 'html'],
+    }),
+    monaco({
+      features: 'all',
+      globalAPI: true,
+      languages: ['javascript', 'html'],
+    }),
     crx({ manifest }),
     zip({ outDir: 'release', outFileName: `crx-${name}-${version}.zip` }),
   ],

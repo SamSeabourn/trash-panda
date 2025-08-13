@@ -15,7 +15,7 @@ export default tseslint.config(
       ...tseslint.configs.recommended,
       prettierConfig,
     ],
-    files: ['**/*.ts'],
+    files: ['**/*.ts', 'post-bundle.js'],
     languageOptions: {
       ecmaVersion: 2020,
       globals: {

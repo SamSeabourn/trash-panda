@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+"@bithero/monaco-editor-vite-plugin@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@bithero/monaco-editor-vite-plugin/-/monaco-editor-vite-plugin-1.0.2.tgz#e8edcb4469b3afa1560adc7d1930872dd1607821"
+  integrity sha512-n2VMzfMCMD5b6p1tztCNQqVrdAH5umCh01gNVn3IWgNdk93vf2oX2M85gKb4fgyLa8LBenW5nRAAE5NXpkYOpw==
+
 "@crxjs/vite-plugin@^2.0.0":
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/@crxjs/vite-plugin/-/vite-plugin-2.0.2.tgz#0fbe9e6f7f2462e4a91ade2030b9fdd23cf338a1"

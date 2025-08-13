@@ -9,14 +9,14 @@ import { extractErrorMessage } from './helpers/extract-error-message';
 import { splitUrlAndLineNumber } from './helpers/split-url-and-line-number';
 import { hasValidLinenumberParams } from './helpers/has-valid-linenumber-params';
 
-console.log('Loading start'); //TODO: loading indicators and cool user facing messages
-
 if (isJSSourceURL(window.location.href)) {
   const { line, column, baseUrl } = splitUrlAndLineNumber(window.location.href);
   if (line && baseUrl && column) {
     window.location.href = addSearchParams(baseUrl, line, column);
   }
 }
+
+//TODO: handle index.html:1:223232 stuff :)
 
 try {
   if (hasValidLinenumberParams(window.location.href)) {
