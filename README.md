@@ -35,9 +35,4 @@
 2. Go to chrome://extensions
 3. Enable "Developer mode"
 4. Load dist/ as an unpacked extension
-5. Visit any `.js` page and add `?line=3&column=10` or `:3:10` to the URL.
-
-# Todos
-- Progress bar
-- User facing messages for 'out of range', generic errors and completed
-- Custom theme support (V2 if I ever get around to it)
+5. Visit any `.js` page and append a line and column number to the URL eg.. `www.mydopeapp/static/js/main.1817bf41.chunk.js:2:35`

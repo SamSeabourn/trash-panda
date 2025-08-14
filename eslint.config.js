@@ -1,21 +1,21 @@
 import js from '@eslint/js';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
-import perfectionist from 'eslint-plugin-perfectionist';
 import prettierPlugin from 'eslint-plugin-prettier';
 import prettierConfig from 'eslint-config-prettier';
+import perfectionist from 'eslint-plugin-perfectionist';
 
 export default tseslint.config(
   {
-    ignores: ['dist']
+    ignores: ['dist'],
   },
   {
-    extends: [
-      js.configs.recommended,
-      ...tseslint.configs.recommended,
-      prettierConfig,
-    ],
-    files: ['**/*.ts', 'post-bundle.js'],
+    files: ['**/*.ts', 'post-bundle.js', 'eslint.config.js'],
+    extends: [js.configs.recommended, ...tseslint.configs.recommended, prettierConfig],
+    plugins: {
+      perfectionist,
+      prettier: prettierPlugin, // Add Prettier plugin here
+    },
     languageOptions: {
       ecmaVersion: 2020,
       globals: {
@@ -25,47 +25,41 @@ export default tseslint.config(
         project: true,
       },
     },
-    plugins: {
-      perfectionist,
-      prettier: prettierPlugin, // Add Prettier plugin here
-    },
     rules: {
-      '@typescript-eslint/explicit-function-return-type': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
-      
+      '@typescript-eslint/explicit-function-return-type': 'off',
+
       'perfectionist/sort-imports': [
         'error',
         {
-          type: 'line-length',
           order: 'asc',
+          type: 'line-length',
         },
       ],
       'perfectionist/sort-objects': [
         'error',
         {
-          type: 'line-length',
           order: 'asc',
+          type: 'line-length',
         },
       ],
       'perfectionist/sort-classes': [
         'error',
         {
-          type: 'alphabetical',
           order: 'asc',
+          type: 'alphabetical',
         },
       ],
-      
-      // Move Prettier rule to this config object since we're defining the plugin here
       'prettier/prettier': [
         'error',
         {
           printWidth: 100,
           singleQuote: true,
+          endOfLine: 'auto',
           jsxSingleQuote: false,
           bracketSameLine: false,
-          endOfLine: 'auto',
         },
       ],
     },
-  }
+  },
 );
