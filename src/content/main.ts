@@ -11,9 +11,12 @@ import { splitUrlAndLineNumber } from './helpers/split-url-and-line-number';
 const url = window.location.href;
 if (isJSSourceURL(url) || isJSURL(url)) {
   let sourceURL = url;
-  const lineColData = {
-    line: 1,
-    column: 1,
+  const lineColData: {
+    line: number | null;
+    column: number | null;
+  } = {
+    line: null,
+    column: null,
   };
   if (isJSSourceURL(url)) {
     const splitUrl = splitUrlAndLineNumber(url);
@@ -31,15 +34,14 @@ if (isJSSourceURL(url) || isJSURL(url)) {
   if (sourceCode) {
     clearPage();
     injectStyles();
-
     spawnLoader();
     patchMonacoUrls();
     spawnEditor({
       fileType,
       sourceCode,
       enableCursor,
-      initialLineNumber: lineColData.line,
-      initialColNumber: lineColData.column,
+      initialLineNumber: lineColData.line || 1,
+      initialColNumber: lineColData.column || 1,
     });
   }
 }
