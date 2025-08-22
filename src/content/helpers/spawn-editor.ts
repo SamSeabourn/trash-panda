@@ -1,28 +1,33 @@
+import { isDarkMode } from './is-dark-mode';
 import { spawnDialog } from './spawn-dialog';
+import { destroySplash } from './destroy-splash';
 import { setupMonacoEnv } from './setup-monaco-env';
 import { lineColToOffset } from './line-to-col-offset';
+import { injectStatusBar } from './inject-status-bar-nodes';
+import { formatJSWithCursor } from './format-js-with-cursor';
 import { getActualLineColCount } from './get-actual-line-col-count';
 
-export const spawnEditor = async (
-  initialLineNumber = 1,
-  initialColNumber = 1,
-  enableCursor = true,
-) => {
-  const pre = document.querySelector('pre');
-  if (!pre) {
-    console.warn('No <pre> tag found on the page.');
-    return;
-  }
+interface SpawnEditorOptions {
+  sourceCode: string;
+  initialLineNumber: number;
+  initialColNumber: number;
+  enableCursor: boolean;
+  fileType?: 'html' | 'js';
+}
+
+export const spawnEditor = async ({
+  sourceCode,
+  enableCursor,
+  initialColNumber,
+  initialLineNumber,
+}: SpawnEditorOptions) => {
   const monaco = await import('monaco-editor');
   const { Range, editor, Selection } = monaco;
 
-  const prettierPluginEstree = (await import('prettier/plugins/estree')).default;
-  const parserBabel = await import('prettier/plugins/babel');
-  const { formatWithCursor } = await import('prettier/standalone');
+  const code = sourceCode;
 
-  const code = pre.textContent ?? '';
   const actualLineLengths = getActualLineColCount(code);
-  const maxLineLength = actualLineLengths.sort()[0]!;
+  const maxLineLength = Math.max(...actualLineLengths);
   const totalLineCount = actualLineLengths.length;
 
   let isValidCursorLocation = true;
@@ -42,7 +47,7 @@ export const spawnEditor = async (
     spawnDialog({
       type: 'warn',
       title: 'Out of range',
-      message: `Line ${initialLineNumber} has a max coloumn size of ${actualLineLengths[initialLineNumber - 1]}, you provided ${initialColNumber}`,
+      message: `Line ${initialLineNumber} has a max character count of ${actualLineLengths[initialLineNumber - 1]}, you provided ${initialColNumber}`,
     });
     isValidCursorLocation = false;
   }
@@ -51,31 +56,29 @@ export const spawnEditor = async (
     ? lineColToOffset(code, initialLineNumber, initialColNumber)
     : 1;
 
-  const result = await formatWithCursor(code, {
-    cursorOffset,
-    parser: 'babel',
-    plugins: [parserBabel, prettierPluginEstree],
-  });
+  const formatResult = await formatJSWithCursor({ code, cursorOffset });
 
   const editorPosition = document.createElement('div');
   editorPosition.id = 'editor';
   document.body.appendChild(editorPosition);
   const editorWrapper = document.getElementById('editor')!;
-  editorWrapper.style.height = '100vh';
+  editorWrapper.style.height = 'calc(100vh - 20px)';
   editorWrapper.style.width = '100vw';
 
-  const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-
   setupMonacoEnv();
+
+  console.log(isDarkMode());
   const editorInstance = editor.create(editorWrapper!, {
     readOnly: true,
     glyphMargin: true,
     automaticLayout: true,
     language: 'javascript',
-    value: result.formatted,
-    theme: isDarkMode ? 'vs-dark' : 'vs',
+    value: formatResult!.formatted,
+    theme: isDarkMode() ? 'vs-dark' : 'vs',
     maxTokenizationLineLength: maxLineLength,
   });
+
+  injectStatusBar();
 
   editorInstance.onMouseDown((e) => {
     if (e.target.type === monaco.editor.MouseTargetType.CONTENT_TEXT) {
@@ -85,7 +88,7 @@ export const spawnEditor = async (
 
   if (isValidCursorLocation && enableCursor) {
     const model = editorInstance.getModel()!;
-    const position = model.getPositionAt(result.cursorOffset);
+    const position = model.getPositionAt(formatResult!.cursorOffset);
     editorInstance.createDecorationsCollection([
       {
         range: new Range(
@@ -121,6 +124,8 @@ export const spawnEditor = async (
       },
     ]);
   }
-};
 
-console.log('loading done');
+  setTimeout(() => {
+    destroySplash();
+  }, 800);
+};

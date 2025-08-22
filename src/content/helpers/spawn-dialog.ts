@@ -1,4 +1,4 @@
-type DialogTypes = 'error' | 'warn' | 'genenric';
+type DialogTypes = 'error' | 'warn' | 'generic';
 
 interface Options {
   type: DialogTypes;

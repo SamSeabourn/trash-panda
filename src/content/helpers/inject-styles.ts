@@ -1,8 +1,12 @@
+import { THEME } from '../constants/theme';
+import { isDarkMode } from './is-dark-mode';
+
 export const injectStyles = () => {
   const pageStyles = `
   body {
     margin: 0;
     height: 100vh;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   }
 
   pre {
@@ -50,7 +54,6 @@ export const injectStyles = () => {
     z-index: 9999;
   }
 
-
   .dialog {
     background: rgba(227, 227, 227, 1);
     padding: 1rem 1.5rem;
@@ -61,7 +64,6 @@ export const injectStyles = () => {
     width: 100%;
     box-shadow: 0 4px 20px rgba(0,0,0,0.2);
     text-align: center;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   }
 
   .warn {
@@ -114,6 +116,102 @@ export const injectStyles = () => {
       box-shadow: 0px 0px 0px #000;
       transform: translateY(8px);
   }
+
+  .status-bar {
+      padding-left: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 100;
+      width: 100vw;
+      height: 30px;
+      bottom: 0;
+      position: fixed;
+      background-image: linear-gradient(90deg, #b047caff, #38074dff, #2f00ffff);
+      background-size: 400% 100%;
+      animation: gradient-animation 15s ease infinite alternate;
+  }
+
+  .cooper {
+    width: 200px;
+  }
+  
+  .splash-page {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background: ${isDarkMode() ? THEME.DARK.BACKGROUND : THEME.LIGHT.BACKGROUND} ;
+    position: absolute;
+    height: 100%;
+    display: flex;
+    z-index: 10001;
+  }
+
+  .splash-logo {
+    width: 420px;
+  }
+
+  .bubble {
+      position: relative;
+      background: #ffffff;
+      color: #5d0970;
+      font-family: Arial;
+      font-size: 1rem;
+      line-height: 35px;
+      box-shadow: 0px 0px 39px 0px #000);
+      text-align: center;
+      border-radius: 27px;
+      padding: 0px 18px;
+  }
+
+  .bubble:after {
+      content: '';
+      position: absolute;
+      display: block;
+      width: 0;
+      z-index: 1;
+      border-style: solid;
+      border-color: #ffffff transparent;
+      border-width: 20px 10px 0;
+      bottom: -20px;
+      left: 50%;
+      margin-left: -20px;
+  }
+
+  .splash-loading-text {
+    animation: breathing 1s ease-in-out infinite alternate;
+  }
+
+    @keyframes gradient-animation {
+      0% {
+          background-position: 0% 50%;
+      }
+      50% {
+          background-position: 100% 50%;
+      }
+      100% {
+          background-position: 0% 50%;
+      }
+  }
+
+  @keyframes breathing {
+    0% {
+      transform: scale(0.9);
+    }
+    50% {
+      transform: scale(1);
+    }
+    100% {
+      transform: scale(0.9);
+    }
+  }
+
+
+
+
 `;
   const style = document.createElement('style');
   style.id = '🦝💅';

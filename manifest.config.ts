@@ -15,17 +15,23 @@ export default defineManifest({
       48: 'public/logo.png',
     },
   },
-  web_accessible_resources: [
-    {
-      matches: ['<all_urls>'],
-      resources: ['trash-background.png', 'codicon.ttf'],
-    },
-  ],
   content_scripts: [
     {
       matches: ['https://*/*'],
       run_at: 'document_start',
       js: ['src/content/main.ts'],
+    },
+  ],
+  web_accessible_resources: [
+    {
+      matches: ['<all_urls>'],
+      resources: [
+        'trash-background.png',
+        'codicon.ttf',
+        'trashbar.png',
+        'cooper.png',
+        'trash-logo.svg',
+      ],
     },
   ],
 });
