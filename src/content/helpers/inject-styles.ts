@@ -127,9 +127,9 @@ export const injectStyles = () => {
       height: 30px;
       bottom: 0;
       position: fixed;
-      background-image: linear-gradient(90deg, #b047caff, #38074dff, #2f00ffff);
+      background-image: linear-gradient(90deg, ${THEME.DARK.BACKGROUND}, #38074dff, #ba0fb4ff);
       background-size: 400% 100%;
-      animation: gradient-animation 15s ease infinite alternate;
+      animation: gradient-animation 35s ease infinite alternate;
   }
 
   .cooper {

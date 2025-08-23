@@ -67,7 +67,6 @@ export const spawnEditor = async ({
 
   setupMonacoEnv();
 
-  console.log(isDarkMode());
   const editorInstance = editor.create(editorWrapper!, {
     readOnly: true,
     glyphMargin: true,
