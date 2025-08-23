@@ -9,6 +9,7 @@ export default defineManifest({
   icons: {
     48: 'public/logo.png',
   },
+  host_permissions: ['https://www.buymeacoffee.com/'],
   action: {
     default_popup: 'src/popup/index.html',
     default_icon: {
