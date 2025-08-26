@@ -35,6 +35,7 @@ export default defineManifest({
         'cooper-coffee.svg',
         'cooper-munching.svg',
         'trash-logo.svg',
+        'assets/monaco-editor.css',
       ],
     },
   ],
