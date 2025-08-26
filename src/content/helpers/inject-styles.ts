@@ -159,7 +159,7 @@ export const injectStyles = () => {
       background: #ffffff;
       color: #5d0970;
       font-family: Arial;
-      font-size: 1rem;
+      font-size: 20px;
       line-height: 35px;
       box-shadow: 0px 0px 39px 0px #000);
       text-align: center;

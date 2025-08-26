@@ -19,11 +19,13 @@ export const spawnPopupPage = async (characterColor: string) => {
 
   wrapper.innerHTML = `
     <div class='popup-container'>
-      <p style='color:${isDarkMode() ? THEME.DARK.TEXT : THEME.LIGHT.TEXT};font-size: 0.75rem;'>
+      <p style='color:${isDarkMode() ? THEME.DARK.TEXT : THEME.LIGHT.TEXT};font-size: 1rem;text-align: center;'>
         Thanks for using Trash Panda!
         Please go to Github to leave a star or request new features
       </p>
-      <button class='button'>Github</button>
+      <div>
+        <button class='button'>Github</button>
+      </div>  
     </div>
     <div>
       <img class="cooper" src="${`data:image/svg+xml,${encodedSvg}`}">
