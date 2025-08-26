@@ -6,8 +6,12 @@ export default defineManifest({
   name: pkg.name,
   manifest_version: 3,
   version: pkg.version,
+  permissions: ['tabs', 'scripting'],
   icons: {
     48: 'public/logo.png',
+  },
+  background: {
+    service_worker: 'src/background/main.ts',
   },
   action: {
     default_popup: 'src/popup/index.html',
@@ -26,10 +30,10 @@ export default defineManifest({
     {
       matches: ['<all_urls>'],
       resources: [
-        'trash-background.png',
         'codicon.ttf',
         'trashbar.png',
-        'cooper.png',
+        'cooper-coffee.svg',
+        'cooper-munching.svg',
         'trash-logo.svg',
       ],
     },

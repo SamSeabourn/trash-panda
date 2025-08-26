@@ -1,6 +1,11 @@
+export {};
+
 declare global {
   interface Window {
     MonacoEnvironment: Environment;
+    __trash_panda: {
+      currentRacoonColor: string;
+    };
   }
 }
 

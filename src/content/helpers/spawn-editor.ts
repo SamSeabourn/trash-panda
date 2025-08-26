@@ -126,5 +126,5 @@ export const spawnEditor = async ({
 
   setTimeout(() => {
     destroySplash();
-  }, 800);
+  }, 500);
 };

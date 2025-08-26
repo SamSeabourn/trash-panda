@@ -1,5 +1,5 @@
-import { THEME } from '../constants/theme';
 import { isDarkMode } from './is-dark-mode';
+import { THEME } from '../../constants/theme';
 
 export const injectStyles = () => {
   const pageStyles = `
@@ -133,7 +133,7 @@ export const injectStyles = () => {
   }
 
   .cooper {
-    width: 200px;
+    width: 300px;
   }
   
   .splash-page {

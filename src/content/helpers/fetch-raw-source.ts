@@ -3,6 +3,7 @@ export const fetchRawSource = async (url: string) => {
     const res = await fetch(url, { cache: 'no-store' });
     if (!res.ok) {
       console.error(`HTTP ${res.status}`);
+      return null;
     }
     const contentType = res.headers.get('content-type');
 

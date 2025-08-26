@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "lib": ["ES2021", "DOM", "DOM.Iterable"],
     "moduleDetection": "force",
     "useDefineForClassFields": true,
     "baseUrl": ".",
@@ -21,5 +21,5 @@
     "skipLibCheck": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src", "manifest.config.ts", "vite.config.ts", "post-bundle.js", "eslint.config.js"]
+  "include": ["src", "manifest.config.ts", "vite.config.ts", "post-bundle.js", "eslint.config.js", "src/globals.d.ts"]
 }

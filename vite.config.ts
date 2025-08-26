@@ -2,7 +2,6 @@ import path from 'node:path';
 import { defineConfig } from 'vite';
 import zip from 'vite-plugin-zip-pack';
 import { crx } from '@crxjs/vite-plugin';
-import monacoEditorEsmPlugin from 'vite-plugin-monaco-editor-esm';
 
 import manifest from './manifest.config.js';
 import { name, version } from './package.json';
@@ -18,23 +17,16 @@ export default defineConfig({
       '@': `${path.resolve(__dirname, 'src')}`,
     },
   },
-  plugins: [
-    monacoEditorEsmPlugin({
-      publicPath: 'assets/monaco-workers',
-      languageWorkers: ['editorWorkerService', 'typescript', 'html'],
-    }),
-
-    crx({ manifest }),
-    zip({ outDir: 'release', outFileName: `${name}-${version}.zip` }),
-  ],
+  plugins: [crx({ manifest }), zip({ outDir: 'release', outFileName: `${name}-${version}.zip` })],
   build: {
     minify: true,
+    sourcemap: false,
     target: 'esnext',
     rollupOptions: {
       output: {
         assetFileNames: (assetInfo) => {
           if (assetInfo.name?.startsWith('editor') && assetInfo.name?.endsWith('css')) {
-            return 'assets/monaco-editor.css'; //Dont hash so we can manually add it to the manifest later (required for lazy loading)
+            return 'assets/monaco-editor.css'; //Don't hash so we can manually add it to the manifest later (required for dynamic importing )
           }
           return 'assets/[name]-[hash][extname]';
         },

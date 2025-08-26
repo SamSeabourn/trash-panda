@@ -22,7 +22,6 @@ export const postBundle = () => {
       MONACO_TS_WORKER_PATH,
     ],
   });
-  // }
 
   fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2), 'utf8');
   console.log(`adding: ${MONACO_CSS_PATH} to web_accessible_resources via postBundle.js`);
