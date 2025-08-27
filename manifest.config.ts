@@ -36,6 +36,7 @@ export default defineManifest({
         'cooper-munching.svg',
         'trash-logo.svg',
         'assets/monaco-editor.css',
+        'buymeacoffeelogo.svg',
       ],
     },
   ],
