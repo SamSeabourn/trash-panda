@@ -3,13 +3,14 @@ import { defineManifest } from '@crxjs/vite-plugin';
 import pkg from './package.json';
 
 export default defineManifest({
-  name: pkg.name,
   manifest_version: 3,
   version: pkg.version,
+  short_name: 'Trash Panda',
   permissions: ['tabs', 'scripting'],
   icons: {
     48: 'public/logo.png',
   },
+  name: 'Trash Panda - Minified JS Line Finder',
   background: {
     service_worker: 'src/background/main.ts',
   },
@@ -26,6 +27,8 @@ export default defineManifest({
       js: ['src/content/main.ts'],
     },
   ],
+  description:
+    'Format and find error locations in minified JavaScript. Trash Panda pinpoints the exact line and column for faster debugging.',
   web_accessible_resources: [
     {
       matches: ['<all_urls>'],
