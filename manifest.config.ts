@@ -6,7 +6,7 @@ export default defineManifest({
   manifest_version: 3,
   version: pkg.version,
   short_name: 'Trash Panda',
-  permissions: ['tabs', 'scripting'],
+  permissions: ['scripting'],
   icons: {
     48: 'public/logo.png',
   },
